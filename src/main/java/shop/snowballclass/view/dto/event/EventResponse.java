@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-public record EventSimpleResponse(
+public record EventResponse(
         @Schema(description = "이벤트 고유키", example = "1")
         Long id,
         @Schema(description = "이벤트 발행자", example = "Jerry")

@@ -18,12 +18,13 @@ public enum ErrorCode {
     RESOURCE_NOT_FOUND(404, "Resource not found"),
     METHOD_NOT_ALLOWED(405, "Invalid Method"),
     INTERNAL_SERVER_ERROR(500, "Server Error"),
+    EXTERNAL_SERVER_ERROR(502, "Bad Gateway"),
 
 
 
     // client
     EVENT_NOT_FOUND(404, "Event not found"),
-    LESSON_NOT_FOUND(404, "Lesoon not found"),
+    LESSON_NOT_FOUND(404, "Lesson not found"),
     ;
 
     private final String message;

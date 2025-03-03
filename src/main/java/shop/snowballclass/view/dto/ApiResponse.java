@@ -1,4 +1,4 @@
-package shop.snowballclass.view.common;
+package shop.snowballclass.view.dto;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
