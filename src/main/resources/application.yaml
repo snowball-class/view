@@ -1,12 +1,21 @@
+urls:
+  member-service: http://snowball-class.shop:30001
+  lesson-service: http://snowball-class.shop:30002
+  payment-service: http://snowball-class.shop:30003
+  cart-service: http://snowball-class.shop:30004
+  review-service: http://snowball-class.shop:30005
+  admin-service: http://snowball-class.shop:30006
+  view-service: http://snowball-class.shop:30007
+
 server:
-  port: 8090
+  port: 8087
 
 spring:
   application:
     name: view-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.34.177.168:3306/mysql8?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://3.34.177.168:3306/mysql8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: test
     password: 1234
   jpa:
@@ -20,10 +29,13 @@ spring:
 
 feign:
   snowball:
-    lesson:
-      url: http://snowball-class.shop:30002/Lesson
+    member: ${urls.member-service}
+    lesson: ${urls.lesson-service}/lessons
+    payment: ${urls.payment-service}
+    cart: ${urls.cart-service}
+    review: ${urls.review-service}
     admin:
-      url: http://snowball-class.shop:30006/
+      event: ${urls.admin-service}/events
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
@@ -35,6 +47,13 @@ springdoc:
     groups-order: desc
     operations-sorter: alpha
     disable-swagger-default-url: true
+    urls:
+      - name: view-service
+        url: ${urls.view-service}/v3/api-docs
+      - name: lesson-service
+        url: ${urls.lesson-service}/v3/api-docs
+      - name: admin-service
+        url: ${urls.admin-service}/v3/api-docs
   api-docs:
     groups:
       enabled: true
