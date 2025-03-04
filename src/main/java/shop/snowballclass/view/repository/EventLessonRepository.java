@@ -9,4 +9,6 @@ public interface EventLessonRepository extends JpaRepository<EventLesson, Long> 
 
     List<EventLesson> findByLessonId(Long lessonId);
 
+    List<EventLesson> findByEventId(Long eventId);
+
 }

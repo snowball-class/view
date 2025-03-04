@@ -1,10 +1,12 @@
 package shop.snowballclass.view.dto.lesson;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record LessonDetailsResponse(
         @Schema(description = "강의 고유키", example = "13")
         Long lessonId,

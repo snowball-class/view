@@ -62,7 +62,7 @@ public class LessonViewService {
             return LessonViewResponse.from(lessonDetails, eventData, reviewList);
         } catch (FeignException e) {
             // LessonResponse, EventResponse, List<ReviewResponse> 가져올때 생길 수 있는 FeignException 처리
-            throw new ExternalServiceException(String.format("Failed to get response. [status:%s][message:%s]", e.getMessage()));
+            throw new ExternalServiceException(String.format("Failed to get response. [status:%s][message:%s]", e.status(), e.getMessage()));
         }
     }
 

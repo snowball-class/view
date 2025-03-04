@@ -43,4 +43,11 @@ public class EventLessonService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.EVENT_LESSON_NOT_FOUND, "존재하지 않는 EventLesson입니다. Id: " + id));
     }
 
+    @Transactional(readOnly = true)
+    public List<EventLesson> getEventLessonByEventId(Long eventId) {
+        List<EventLesson> EventLessonList = eventLessonRepository.findByEventId(eventId);
+        if (EventLessonList.isEmpty())
+            throw new EntityNotFoundException(ErrorCode.EVENT_LESSON_NOT_FOUND, "해당하는 Event에 포함된 클래스가 없습니다. Id: " + eventId);
+        return EventLessonList;
+    }
 }
