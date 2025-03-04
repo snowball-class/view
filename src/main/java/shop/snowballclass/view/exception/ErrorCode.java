@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public enum ErrorCode {
 
     // Common
-    BAD_REQUEST(400, "BAD_REQUEST"),
+    BAD_REQUEST(400, "Bad Request"),
     INVALID_INPUT_VALUE(400, "Invalid Input Value"),
     INVALID_TYPE_VALUE(400, "Invalid Type Value"),
     INVALID_SIGNATURE_TOKEN(401, "토큰이 유효하지 않습니다."),
@@ -20,11 +20,10 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(500, "Server Error"),
     EXTERNAL_SERVER_ERROR(502, "Bad Gateway"),
 
-
-
     // client
     EVENT_NOT_FOUND(404, "Event not found"),
     LESSON_NOT_FOUND(404, "Lesson not found"),
+    EVENT_LESSON_NOT_FOUND(404, "EventLesson not found"),
     ;
 
     private final String message;
