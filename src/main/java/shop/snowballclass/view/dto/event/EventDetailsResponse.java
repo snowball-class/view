@@ -7,7 +7,7 @@ import shop.snowballclass.view.dto.lesson.LessonResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record EventInfoResponse(
+public record EventDetailsResponse(
         @Schema(description = "이벤트 고유키", example = "1")
         Long id,
         @Schema(description = "이벤트 발행자", example = "Jerry")

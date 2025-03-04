@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-@Schema
 public record LessonResponse(
         @Schema(description = "강의 고유키", example = "13")
         Long lessonId,
@@ -19,12 +18,6 @@ public record LessonResponse(
         String categoryName,
         @Schema(description = "강의 가격", example = "30000")
         Integer price,
-        @Schema(description = "강의 할인된 가격", example = "27000")
-        Integer discountedPrice,
-        @Schema(description = "강의 수강자 수", example = "18")
-        Integer numOfStudents,
-        @Schema(description = "강의 평균 별점", example = "4.7")
-        Double averageStarScore,
         @Schema(description = "강의 내용 1", example = "이번에는 실전! \uD83D\uDC33 도커를 실제 프로젝트에 사용해봅시다.")
         String content1,
         @Schema(description = "강의 내용 2", example = "프론트와 백엔드, 데이터베이스로 구성되는 모듈들을도커로 컨테이너화하여 서비스를 구축하고 돌려보기로 해요! \uD83D\uDE00")

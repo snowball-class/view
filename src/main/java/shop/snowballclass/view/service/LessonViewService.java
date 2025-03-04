@@ -1,5 +1,6 @@
 package shop.snowballclass.view.service;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,14 +11,14 @@ import shop.snowballclass.view.client.ReviewClient;
 import shop.snowballclass.view.dto.ApiResponse;
 import shop.snowballclass.view.dto.event.EventResponse;
 import shop.snowballclass.view.dto.lesson.LessonDetailsResponse;
+import shop.snowballclass.view.dto.lesson.LessonViewResponse;
 import shop.snowballclass.view.dto.lesson.LessonResponse;
 import shop.snowballclass.view.dto.review.ReviewResponse;
 import shop.snowballclass.view.entity.EventLesson;
-import shop.snowballclass.view.entity.LessonReview;
 import shop.snowballclass.view.exception.common.ExternalServiceException;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,28 +31,39 @@ public class LessonViewService {
     private final ReviewClient reviewClient;
 
     @Transactional(readOnly = true)
-    public LessonDetailsResponse getLessonView(Long lessonId) {
-        ApiResponse<LessonResponse> lessonResponse = lessonClient.getLessonByLessonId(lessonId);
-        if (!lessonResponse.checkStatusOK())
-            throw new ExternalServiceException("[LessonClient] Failed to get Lesson response. Status: " + lessonResponse.status());
+    public LessonViewResponse getLessonView(Long lessonId) {
+        try {
+            LessonResponse lessonResponse = lessonClient.getLessonByLessonId(lessonId).data();
+            EventResponse eventData = eventLessonService.findEventLessonByLessonId(lessonId)
+                    .map(EventLesson::getEventId)
+                    .map(eventClient::getEventByEventId)
+                    .map(ApiResponse::data)
+                    .orElse(null);
 
-        EventLesson eventLesson = eventLessonService.getEventLessonByLessonId(lessonId);
-        ApiResponse<EventResponse> eventResponse = eventClient.getEventByEventId(eventLesson.getEventId());
-        if (!eventResponse.checkStatusOK())
-            throw new ExternalServiceException("[EventClient] Failed to get Event response. Status: " + eventResponse.status());
+            // Review 서비스 개발 완료후 적용
+//            String reviewIds = lessonReviewService.getLessonReviewListByLessonId(lessonId).stream()
+//                    .map(LessonReview::getReviewId)
+//                    .map(String::valueOf)
+//                    .collect(Collectors.joining(","));
+//            List<ReviewResponse> reviewList = reviewClient.getBulkReviews(reviewIds).data();
 
-        String reviewIds = lessonReviewService.getLessonReviewListByLessonId(lessonId).stream()
-                .map(LessonReview::getReviewId)
-                .map(String::valueOf)
-                .collect(Collectors.joining(","));
-        ApiResponse<List<ReviewResponse>> reviewListResponse = reviewClient.getBulkReviews(reviewIds);
-        if (!reviewListResponse.checkStatusOK())
-            throw new ExternalServiceException("[ReviewClient] Failed to get Review response. Status: " + reviewListResponse.status());
+            Integer discountedPrice = lessonResponse.price();
+            Integer numOfStudents = 18; // MemberLesson쪽 서비스 개발 완료 이후 수강자 수 계산
+            Double averageStarScore = 4.7;// LessonReview쪽 서비스 개발 완료 이후 평균 별점 계산
+            if(eventData != null) {
+                discountedPrice = discountedPrice * (100 - eventData.discountRate()) / 100;
+            }
 
-        // (할인된 가격, 수강자 수, 평균 별점) 계산하는 로직 들어가야 함
-        // 수강자 수는 MemberLesson쪽 서비스 구현 필요
-        // 평균 별점은 LessonReview쪽 서비스 구현 필요
-
-        return LessonDetailsResponse.from(lessonResponse.data(), eventResponse.data(), reviewListResponse.data());
+            LessonDetailsResponse lessonDetails = LessonDetailsResponse.from(lessonResponse, discountedPrice, numOfStudents, averageStarScore);
+            List<ReviewResponse> reviewList = List.of( // Review 서비스 개발 완료후 적용
+                    ReviewResponse.from("Jerry", 4.5, "Review Mock Data1", LocalDateTime.now()),
+                    ReviewResponse.from("Tom", 3.5, "Review Mock Data2", LocalDateTime.now())
+            );
+            return LessonViewResponse.from(lessonDetails, eventData, reviewList);
+        } catch (FeignException e) {
+            // LessonResponse, EventResponse, List<ReviewResponse> 가져올때 생길 수 있는 FeignException 처리
+            throw new ExternalServiceException(String.format("Failed to get response. [status:%s][message:%s]", e.getMessage()));
+        }
     }
+
 }

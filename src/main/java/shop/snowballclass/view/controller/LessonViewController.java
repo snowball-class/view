@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shop.snowballclass.view.dto.ApiResponse;
-import shop.snowballclass.view.dto.lesson.LessonDetailsResponse;
+import shop.snowballclass.view.dto.lesson.LessonViewResponse;
 import shop.snowballclass.view.service.LessonViewService;
 
-@Tag(name = "강의 조회 API")
+@Tag(name = "강의 View API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/lessons/view")
+@RequestMapping("/view/lessons")
 public class LessonViewController {
     private final LessonViewService lessonViewService;
 
-    @Operation(summary = "강의 상세 정보 조회 API")
+    @Operation(summary = "강의 상세 정보 조회")
     @GetMapping("/{lessonId}")
-    public ApiResponse<LessonDetailsResponse> getLessonView(@PathVariable("lessonId") Long lessonId) {
+    public ApiResponse<LessonViewResponse> getLessonView(@PathVariable("lessonId") Long lessonId) {
         return ApiResponse.success(lessonViewService.getLessonView(lessonId));
     }
 

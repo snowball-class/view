@@ -2,6 +2,7 @@ package shop.snowballclass.view.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,13 +27,23 @@ public class EventLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private Long eventId;
-
     @Column(nullable = false)
     private Long lessonId;
-    
-    // Kafka 도입시 컬럼 추가, DB Postgresql로 변경, json 데이터 파일 String으로 저장
     private String content;
+
+    @Builder
+    private EventLesson(Long eventId, Long lessonId) {
+        this.eventId = eventId;
+        this.lessonId = lessonId;
+    }
+
+    public static EventLesson from(Long eventId, Long lessonId) {
+        return EventLesson.builder()
+                .eventId(eventId)
+                .lessonId(lessonId)
+                .build();
+    }
+
 }
