@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.snowballclass.view.dto.event.EventLessonCreateRequest;
+import shop.snowballclass.view.dto.eventlesson.EventLessonCreateRequest;
+import shop.snowballclass.view.dto.eventlesson.EventLessonResponse;
 import shop.snowballclass.view.entity.EventLesson;
 import shop.snowballclass.view.exception.ErrorCode;
 import shop.snowballclass.view.exception.common.EntityNotFoundException;
@@ -57,5 +58,11 @@ public class EventLessonService {
         if (EventLessonList.isEmpty())
             throw new EntityNotFoundException(ErrorCode.EVENT_LESSON_NOT_FOUND, "해당하는 Event에 포함된 클래스가 없습니다. Id: " + eventId);
         return EventLessonList;
+    }
+
+    public List<EventLessonResponse> getBulkEventLessonsByLessonIds(List<Long> lessonsIds) {
+        return eventLessonRepository.findByLessonIdIn(lessonsIds).stream()
+                .map(EventLessonResponse::from)
+                .collect(Collectors.toList());
     }
 }
