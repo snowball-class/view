@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import shop.snowballclass.view.dto.ApiResponse;
-import shop.snowballclass.view.dto.memberCart.GetMemberCartLessonsDto;
+import shop.snowballclass.view.dto.membercart.GetMemberCartLessonsDto;
 import shop.snowballclass.view.service.MemberCartService;
 
 import java.util.UUID;
