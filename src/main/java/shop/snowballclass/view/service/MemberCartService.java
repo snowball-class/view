@@ -2,7 +2,7 @@ package shop.snowballclass.view.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.snowballclass.view.dto.membercart.GetMemberCartLessonsDto;
+import shop.snowballclass.view.dto.memberCart.GetMemberCartLessonsDto;
 import shop.snowballclass.view.entity.CartLesson;
 import shop.snowballclass.view.entity.MemberCart;
 import shop.snowballclass.view.exception.ErrorCode;

@@ -1,4 +1,4 @@
-package shop.snowballclass.view.dto.membercart;
+package shop.snowballclass.view.dto.memberCart;
 
 import shop.snowballclass.view.entity.CartLesson;
 import shop.snowballclass.view.entity.MemberCart;
