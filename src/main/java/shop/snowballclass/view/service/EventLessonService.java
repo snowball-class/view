@@ -22,13 +22,12 @@ public class EventLessonService {
     private final EventLessonRepository eventLessonRepository;
 
     @Transactional
-    public void createEventLessons(Long eventId, EventLessonCreateRequest lessonIds) {
-        List<EventLesson> eventLessonList = lessonIds.lessonIds().stream()
+    public void createEventLessons(Long eventId, EventLessonCreateRequest request) {
+        List<EventLesson> eventLessonList = request.lessonIds().stream()
                 .map(lessonId -> EventLesson.from(eventId, lessonId))
                 .collect(Collectors.toList());
         eventLessonRepository.saveAll(eventLessonList);
     }
-
 
     @Transactional(readOnly = true)
     public Optional<EventLesson> findEventLessonByLessonId(Long lessonId) {
