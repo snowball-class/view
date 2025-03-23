@@ -25,8 +25,8 @@ public class EventLessonController {
 
     @Operation(summary = "EventLesson 레코드 생성")
     @PostMapping("/events/{eventId}/lessons")
-    public ApiResponse createEventLessons(@PathVariable("eventId") Long eventId, @RequestBody EventLessonCreateRequest lessonIds) {
-        eventLessonService.createEventLessons(eventId, lessonIds);
+    public ApiResponse createEventLessons(@PathVariable("eventId") Long eventId, @RequestBody EventLessonCreateRequest request) {
+        eventLessonService.createEventLessons(eventId, request);
         return ApiResponse.success();
     }
 
