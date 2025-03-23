@@ -24,7 +24,6 @@ public enum ErrorCode {
     EVENT_NOT_FOUND(404, "Event not found"),
     LESSON_NOT_FOUND(404, "Lesson not found"),
     EVENT_LESSON_NOT_FOUND(404, "EventLesson not found"),
-    MEMBER_CART_NOT_FOUND(404, "MemberCart not found")
     ;
 
     private final String message;
