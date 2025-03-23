@@ -1,7 +1,8 @@
-package shop.snowballclass.view.dto.memberCart;
+package shop.snowballclass.view.dto.membercart;
 
 import shop.snowballclass.view.entity.CartLesson;
 import shop.snowballclass.view.entity.MemberCart;
+import shop.snowballclass.view.dto.memberCart.CartLessonDto;
 
 import java.util.List;
 import java.util.UUID;

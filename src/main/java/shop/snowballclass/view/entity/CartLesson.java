@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import shop.snowballclass.view.dto.event.EventResponse;
+import shop.snowballclass.view.dto.lesson.LessonResponse;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Getter
 public class CartLesson {
     @Id
@@ -33,4 +35,31 @@ public class CartLesson {
     @Column(nullable = false)
     @CreatedDate
     LocalDateTime createdAt;
+
+    private CartLesson(
+        Long cartId, Long lessonId, String lessonThumbnail, String lessonTitle, Long discount, Long originPrice, Long totalPrice, LocalDateTime createdAt
+    ) {
+        this.cartId = cartId;
+        this.lessonId = lessonId;
+        this.lessonThumbnail = lessonThumbnail;
+        this.lessonTitle = lessonTitle;
+        this.discount = discount;
+        this.originPrice = originPrice;
+        this.totalPrice = totalPrice;
+        this.createdAt = createdAt;
+    }
+
+    public static CartLesson create(Long cartId, EventResponse event, LessonResponse lesson) {
+        Long discountPrice = Integer.toUnsignedLong(lesson.price() * (1 - event.discountRate()/100));
+        return new CartLesson(
+                cartId,
+                lesson.lessonId(),
+                lesson.thumbnailUrl(),
+                lesson.title(),
+                discountPrice,
+                lesson.price().longValue(),
+                lesson.price() - discountPrice,
+                LocalDateTime.now()
+        );
+    }
 }
