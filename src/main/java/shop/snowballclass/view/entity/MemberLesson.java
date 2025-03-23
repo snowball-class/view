@@ -2,6 +2,7 @@ package shop.snowballclass.view.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +35,17 @@ public class MemberLesson {
     private Long lessonId;
 
     private String content;
+
+    @Builder
+    private MemberLesson(UUID memberId, Long lessonId) {
+        this.memberId = memberId;
+        this.lessonId = lessonId;
+    }
+
+    public static MemberLesson from(UUID memberId, Long lessonId) {
+        return MemberLesson.builder()
+                .memberId(memberId)
+                .lessonId(lessonId)
+                .build();
+    }
 }
