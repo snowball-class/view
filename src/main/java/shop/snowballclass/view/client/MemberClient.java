@@ -9,7 +9,7 @@ import shop.snowballclass.view.dto.member.MemberInfoResponse;
 @FeignClient(name = "member-service", url = "${feign.snowball.member}")
 public interface MemberClient {
 
-    @GetMapping
+    @GetMapping("/member")
     ApiResponse<MemberInfoResponse> getMemberInfo(@RequestHeader("Authorization") String token);
 
 }

@@ -31,4 +31,9 @@ public class MemberLessonService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<MemberLesson> getMemberLessonListByMemberId(UUID memberId) {
+        return memberLessonRepository.findByMemberId(memberId);
+    }
+
 }
