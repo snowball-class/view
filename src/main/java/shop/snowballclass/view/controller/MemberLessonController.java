@@ -3,6 +3,7 @@ package shop.snowballclass.view.controller;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import shop.snowballclass.view.dto.ApiResponse;
@@ -21,7 +22,7 @@ public class MemberLessonController {
 
     @Operation(summary = "MemberLesson 레코드 생성")
     @PostMapping("/members/{memberId}/lessons")
-    public ApiResponse createEventLessons(@PathVariable("memberId") UUID memberId, @RequestBody MemberLessonCreateRequest request) {
+    public ApiResponse createEventLessons(@PathVariable("memberId") UUID memberId, @Valid @RequestBody MemberLessonCreateRequest request) {
         memberLessonService.createMemberLessons(memberId, request);
         return ApiResponse.success();
     }

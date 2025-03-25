@@ -4,6 +4,7 @@ package shop.snowballclass.view.controller;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import shop.snowballclass.view.dto.ApiResponse;
@@ -25,7 +26,7 @@ public class EventLessonController {
 
     @Operation(summary = "EventLesson 레코드 생성")
     @PostMapping("/events/{eventId}/lessons")
-    public ApiResponse createEventLessons(@PathVariable("eventId") Long eventId, @RequestBody EventLessonCreateRequest request) {
+    public ApiResponse createEventLessons(@PathVariable("eventId") Long eventId, @Valid @RequestBody EventLessonCreateRequest request) {
         eventLessonService.createEventLessons(eventId, request);
         return ApiResponse.success();
     }
