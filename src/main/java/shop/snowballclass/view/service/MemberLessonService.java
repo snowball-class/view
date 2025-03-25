@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.snowballclass.view.dto.memberlesson.MemberLessonCreateRequest;
+import shop.snowballclass.view.dto.memberlesson.MemberLessonRemoveRequest;
 import shop.snowballclass.view.entity.MemberLesson;
 import shop.snowballclass.view.repository.MemberLessonRepository;
 
@@ -36,4 +37,8 @@ public class MemberLessonService {
         return memberLessonRepository.findByMemberId(memberId);
     }
 
+    @Transactional
+    public void removeEventLessons(UUID memberId, MemberLessonRemoveRequest request) {
+        memberLessonRepository.deleteByMemberIdAndLessonIdIn(memberId, request.lessonIds());
+    }
 }

@@ -10,4 +10,5 @@ public interface MemberLessonRepository extends JpaRepository<MemberLesson, Long
 
     List<MemberLesson> findByMemberId(UUID memberId);
 
+    void deleteByMemberIdAndLessonIdIn(UUID memberId, List<Long> lessonIds);
 }
