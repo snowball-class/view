@@ -56,8 +56,8 @@ public class LessonViewService {
 
             LessonDetailsResponse lessonDetails = LessonDetailsResponse.from(lessonResponse, discountedPrice, numOfStudents, averageStarScore);
             List<ReviewResponse> reviewList = List.of( // Review 서비스 개발 완료후 적용
-                    ReviewResponse.from("Jerry", 4.5, "Review Mock Data1", LocalDateTime.now()),
-                    ReviewResponse.from("Tom", 3.5, "Review Mock Data2", LocalDateTime.now())
+//                    ReviewResponse.from("Jerry", 4.5, "Review Mock Data1", LocalDateTime.now()),
+//                    ReviewResponse.from("Tom", 3.5, "Review Mock Data2", LocalDateTime.now())
             );
             return LessonViewResponse.from(lessonDetails, eventData, reviewList);
         } catch (FeignException e) {

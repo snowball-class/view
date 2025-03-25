@@ -14,16 +14,18 @@ public record ReviewResponse(
         String content,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
         @Schema(description = "리뷰 작성일", example = "2025-03-04T12:30:16")
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
 
-
+        @Schema(description = "레슨Id", example = "13")
+        Long lessonId
 ) {
-    public static ReviewResponse from(String writer, Double starScore, String content, LocalDateTime createdAt){
+    public static ReviewResponse from(String writer, Double starScore, String content, LocalDateTime createdAt, Long lessonId){
         return new ReviewResponse(
                 writer,
                 starScore,
                 content,
-                createdAt
+                createdAt,
+                lessonId
         );
     }
 }

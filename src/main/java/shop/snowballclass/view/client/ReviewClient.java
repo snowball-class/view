@@ -2,6 +2,7 @@ package shop.snowballclass.view.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import shop.snowballclass.view.dto.ApiResponse;
 import shop.snowballclass.view.dto.review.ReviewResponse;
@@ -15,4 +16,6 @@ public interface ReviewClient {
     @GetMapping("/bulk")
     ApiResponse<List<ReviewResponse>> getBulkReviews(@RequestParam("ids") String reviewIds);
 
+    @GetMapping("/reviews/member")
+    ApiResponse<List<ReviewResponse>> getReviewListByMemberId(@RequestHeader("Authorization") String token);
 }
