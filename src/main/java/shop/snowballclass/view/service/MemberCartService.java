@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.snowballclass.view.client.EventClient;
 import shop.snowballclass.view.client.LessonClient;
+import shop.snowballclass.view.client.MemberClient;
 import shop.snowballclass.view.dto.event.EventResponse;
 import shop.snowballclass.view.dto.lesson.LessonResponse;
 import shop.snowballclass.view.dto.membercart.AddMemberCartLessonDto;
@@ -30,6 +31,7 @@ public class MemberCartService {
     private final LessonClient lessonClient;
     private final EventClient eventClient;
     private final EventLessonRepository eventLessonRepository;
+    private final MemberClient memberClient;
 
     public GetMemberCartLessonsDto getCart(String token) {
         // TODO : memberClient 를 통해서 member UUID 조회 해 와야함
@@ -43,10 +45,8 @@ public class MemberCartService {
     @Transactional
     public Boolean addCartLesson(String token, AddMemberCartLessonDto addMemberCartLessonDto) {
         try {
-            // TODO : memberClient 를 통해서 member UUID 조회 해 와야함
-            // UUID memberUUID = memberClient.getMember(token).getMemberUUID();
+            UUID memberUUID = memberClient.getMemberInfo(token).data().memberUUID();
             Long lessonId = addMemberCartLessonDto.getLessonId();
-            UUID memberUUID = UUID.randomUUID();
 
             MemberCart memberCart = getMemberCart(memberUUID);
             LessonResponse lesson = lessonClient.getLessonByLessonId(lessonId).data();
