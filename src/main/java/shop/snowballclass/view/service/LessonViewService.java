@@ -15,10 +15,12 @@ import shop.snowballclass.view.dto.lesson.LessonViewResponse;
 import shop.snowballclass.view.dto.lesson.LessonResponse;
 import shop.snowballclass.view.dto.review.ReviewResponse;
 import shop.snowballclass.view.entity.EventLesson;
+import shop.snowballclass.view.entity.LessonReview;
 import shop.snowballclass.view.exception.common.ExternalServiceException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,12 +42,11 @@ public class LessonViewService {
                     .map(ApiResponse::data)
                     .orElse(null);
 
-            // Review 서비스 개발 완료후 적용
-//            String reviewIds = lessonReviewService.getLessonReviewListByLessonId(lessonId).stream()
-//                    .map(LessonReview::getReviewId)
-//                    .map(String::valueOf)
-//                    .collect(Collectors.joining(","));
-//            List<ReviewResponse> reviewList = reviewClient.getBulkReviews(reviewIds).data();
+            String reviewIds = lessonReviewService.getLessonReviewListByLessonId(lessonId).stream()
+                    .map(LessonReview::getReviewId)
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+            List<ReviewResponse> reviewList = reviewClient.getBulkReviews(reviewIds).data();
 
             Integer discountedPrice = lessonResponse.price();
             Integer numOfStudents = 18; // MemberLesson쪽 서비스 개발 완료 이후 수강자 수 계산
@@ -55,10 +56,7 @@ public class LessonViewService {
             }
 
             LessonDetailsResponse lessonDetails = LessonDetailsResponse.from(lessonResponse, discountedPrice, numOfStudents, averageStarScore);
-            List<ReviewResponse> reviewList = List.of( // Review 서비스 개발 완료후 적용
-//                    ReviewResponse.from("Jerry", 4.5, "Review Mock Data1", LocalDateTime.now()),
-//                    ReviewResponse.from("Tom", 3.5, "Review Mock Data2", LocalDateTime.now())
-            );
+
             return LessonViewResponse.from(lessonDetails, eventData, reviewList);
         } catch (FeignException e) {
             // LessonResponse, EventResponse, List<ReviewResponse> 가져올때 생길 수 있는 FeignException 처리
