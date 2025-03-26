@@ -34,9 +34,7 @@ public class MemberCartService {
     private final MemberClient memberClient;
 
     public GetMemberCartLessonsDto getCart(String token) {
-        // TODO : memberClient 를 통해서 member UUID 조회 해 와야함
-        // UUID memberUUID = memberClient.getMember(token).getMemberUUID();
-        UUID memberUUID = UUID.randomUUID();
+         UUID memberUUID = memberClient.getMemberInfo(token).data().memberUUID();
         MemberCart memberCart = getMemberCart(memberUUID);
         List<CartLesson> cartLessons = cartLessonRepository.findByCartId(memberCart.getCartId());
         return GetMemberCartLessonsDto.create(memberCart,cartLessons);
